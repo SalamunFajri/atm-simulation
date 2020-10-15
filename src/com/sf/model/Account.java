@@ -1,4 +1,4 @@
-package com.sf;
+package com.sf.model;
 
 public class Account {
 

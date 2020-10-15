@@ -1,4 +1,4 @@
-package com.sf;
+package com.sf.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,15 @@ public class Bank {
         for(Account a : this.accounts){
             if(a.getAccountNumber().compareTo(accountNumber)== 0
                     && a.getPin().compareTo(pin)== 0){
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public Account getAccount(String accountNumber) {
+        for(Account a : this.accounts){
+            if(a.getAccountNumber().compareTo(accountNumber)== 0){
                 return a;
             }
         }
