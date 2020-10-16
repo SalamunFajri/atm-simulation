@@ -4,7 +4,6 @@ import com.sf.model.Account;
 import com.sf.model.Bank;
 import com.sf.util.UtilCls;
 
-import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -101,15 +100,15 @@ public class ScreenService {
 
         switch(choice){
             case 1:
-                BankService.withdraw(authAccount, 10);
+                TransactionService.withdraw(authAccount, 10);
                 withdrawSummaryScreen(10);
                 break;
             case 2:
-                BankService.withdraw(authAccount, 50);
+                TransactionService.withdraw(authAccount, 50);
                 withdrawSummaryScreen(50);
                 break;
             case 3:
-                BankService.withdraw(authAccount, 100);
+                TransactionService.withdraw(authAccount, 100);
                 withdrawSummaryScreen(100);
                 break;
             case 4:
@@ -143,7 +142,7 @@ public class ScreenService {
                 continue;
             }
         } while (amountWithdraw < 0 || (amountWithdraw > authAccount.getBalance()));
-        BankService.withdraw(authAccount, amountWithdraw);
+        TransactionService.withdraw(authAccount, amountWithdraw);
         withdrawSummaryScreen(amountWithdraw);
     }
 
@@ -174,9 +173,8 @@ public class ScreenService {
     private void fundTransferScreen1() {
         sc.nextLine();
         String destAccountNumb;
-        System.out.println("Please enter destination account and");
-        System.out.println("press enter to continue or");
-        System.out.println("press cancel (Esc) to go back to Transaction: ");
+        System.out.println("Please enter destination account and press enter to continue or");
+        System.out.println("press enter to go back Transaction: ");
         destAccountNumb = sc.nextLine();
         if (destAccountNumb.length()>0) {
             fundTransferScreen2(destAccountNumb);
@@ -245,7 +243,7 @@ public class ScreenService {
         } else {
             switch (choice) {
                 case 1:
-                    BankService.fundTransfer(theBank.getAccount(authAccount.getAccountNumber()),
+                    TransactionService.fundTransfer(theBank.getAccount(authAccount.getAccountNumber()),
                             theBank.getAccount(destAccountNumb), amountTransfer);
                     fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb.toString());
                     break;

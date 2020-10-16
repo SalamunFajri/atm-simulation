@@ -2,7 +2,7 @@ package com.sf.service;
 
 import com.sf.model.Account;
 
-public class BankService {
+public class TransactionService {
 
     public static void withdraw(Account account, long amount) {
         account.setBalance(account.getBalance()-amount);
