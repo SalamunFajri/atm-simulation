@@ -2,21 +2,30 @@ package com.sf.service;
 
 import com.sf.model.Account;
 import com.sf.model.Bank;
+import com.sf.model.Mutation;
+import com.sf.model.Transaction;
 import com.sf.util.UtilCls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ScreenService {
 
     private Bank theBank;
     private Scanner sc;
     private Account authAccount = null;
+    private TransactionService transactionService;
+    private Mutation mutation;
 
-    public ScreenService(Bank bank) {
+    public ScreenService(Bank bank, TransactionService transactionService, Mutation mutation) {
         this.setBank(bank);
         this.setSc(new Scanner(System.in));
+        this.setTransactionService(transactionService);
+        this.setMutation(mutation);
     }
 
     public void Run() {
@@ -66,12 +75,13 @@ public class ScreenService {
         do{
             System.out.println("1. Withdraw");
             System.out.println("2. Fund Transfer");
-            System.out.println("3. Exit");
-            System.out.println("Please choose option[3]:");
+            System.out.println("3. Print Transaction");
+            System.out.println("4. Exit");
+            System.out.println("Please choose option[4]:");
             choice = sc.nextInt();
-        } while(choice <1 || choice >3);
+        } while(choice <1 || choice >4);
 
-        switch(choice){
+        switch(choice) {
             case 1:
                 withdrawScreen1();
                 break;
@@ -79,6 +89,42 @@ public class ScreenService {
                 fundTransferScreen1();
                 break;
             case 3:
+                printTransactionScreen();
+                break;
+            case 4:
+                welcomeScreen();
+                break;
+
+        }
+    }
+
+    private void printTransactionScreen() {
+        Mutation mutation = new Mutation();
+        List<Transaction> list = mutation.getLastNTransaction("012108", 4);
+        list.stream()
+                .forEach(t->System.out.println(t.getAccountNumber() + ","
+                        +t.getTimestamp()+","
+                        +t.getTransactionType()+","
+                        +t.getAmount()));
+
+        ChooseTransactionOrWelcomeScreen();
+
+    }
+
+    private void ChooseTransactionOrWelcomeScreen() {
+        int choice;
+        do {
+            System.out.println("1. Transaction");
+            System.out.println("2. Exit");
+            System.out.println("Choose option[2]:");
+            choice = sc.nextInt();
+        } while (choice < 1 || choice > 2);
+
+        switch (choice) {
+            case 1:
+                transactionScreen();
+                break;
+            case 2:
                 welcomeScreen();
                 break;
         }
@@ -100,15 +146,15 @@ public class ScreenService {
 
         switch(choice){
             case 1:
-                TransactionService.withdraw(authAccount, 10);
+                this.getTransactionService().withdraw(authAccount, 10);
                 withdrawSummaryScreen(10);
                 break;
             case 2:
-                TransactionService.withdraw(authAccount, 50);
+                this.getTransactionService().withdraw(authAccount, 50);
                 withdrawSummaryScreen(50);
                 break;
             case 3:
-                TransactionService.withdraw(authAccount, 100);
+                this.getTransactionService().withdraw(authAccount, 100);
                 withdrawSummaryScreen(100);
                 break;
             case 4:
@@ -142,7 +188,7 @@ public class ScreenService {
                 continue;
             }
         } while (amountWithdraw < 0 || (amountWithdraw > authAccount.getBalance()));
-        TransactionService.withdraw(authAccount, amountWithdraw);
+        this.getTransactionService().withdraw(authAccount, amountWithdraw);
         withdrawSummaryScreen(amountWithdraw);
     }
 
@@ -153,21 +199,7 @@ public class ScreenService {
         System.out.printf("Withdraw : $%d%n", amountWithdraw);
         System.out.printf("Balance  : $%d%n", authAccount.getBalance());
         System.out.println("");
-        do {
-            System.out.println("1. Transaction");
-            System.out.println("2. Exit");
-            System.out.println("Choose option[2]:");
-            choice = sc.nextInt();
-        }while(choice <1 || choice >2);
-
-        switch(choice){
-            case 1:
-                transactionScreen();
-                break;
-            case 2:
-                welcomeScreen();
-                break;
-        }
+        ChooseTransactionOrWelcomeScreen();
     }
 
     private void fundTransferScreen1() {
@@ -243,7 +275,7 @@ public class ScreenService {
         } else {
             switch (choice) {
                 case 1:
-                    TransactionService.fundTransfer(theBank.getAccount(authAccount.getAccountNumber()),
+                    this.getTransactionService().fundTransfer(theBank.getAccount(authAccount.getAccountNumber()),
                             theBank.getAccount(destAccountNumb), amountTransfer);
                     fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb.toString());
                     break;
@@ -255,29 +287,14 @@ public class ScreenService {
     }
 
     private void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb) {
-        int choice;
         System.out.println("Fund Transfer Summary");
         System.out.printf("Destination Account :$%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
         System.out.printf("Reference Number    :$%s%n", refNumb);
         System.out.printf("Balance             :$%d%n", authAccount.getBalance());
         System.out.println("");
-        do {
-            System.out.println("1. Transaction");
-            System.out.println("2. Exit");
-            System.out.printf("Choose option[2]:");
-            choice = sc.nextInt();
-        } while(choice <1 || choice >2);
 
-        switch (choice) {
-            case 1:
-                transactionScreen();
-                break;
-            case 2:
-                welcomeScreen();
-                break;
-        }
-
+        ChooseTransactionOrWelcomeScreen();
     }
 
     public Bank getBank() {
@@ -302,5 +319,21 @@ public class ScreenService {
 
     public void setAuthAccount(Account authAccount) {
         this.authAccount = authAccount;
+    }
+
+    public TransactionService getTransactionService() {
+        return transactionService;
+    }
+
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
+    public Mutation getMutation() {
+        return mutation;
+    }
+
+    public void setMutation(Mutation mutation) {
+        this.mutation = mutation;
     }
 }

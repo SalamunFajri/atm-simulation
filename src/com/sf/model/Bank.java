@@ -8,27 +8,24 @@ public class Bank {
     public List<Account> accounts = new ArrayList<>();
 
     public Bank() {
-        accounts.add(new Account("John Doe","012108", 100, "112233"));
-        accounts.add(new Account("Jane Doe","932012", 30, "112244"));
+
+    }
+
+    public void Add(Account account){
+        accounts.add(account);
     }
 
     public Account userLogin(String accountNumber, String pin) {
-        for(Account a : this.accounts){
-            if(a.getAccountNumber().compareTo(accountNumber)== 0
-                    && a.getPin().compareTo(pin)== 0){
-                return a;
-            }
-        }
-        return null;
+        return this.accounts.stream()
+                .filter(a -> a.getAccountNumber().equals(accountNumber)
+                        && a.getPin().equals(pin))
+                .findFirst().orElse(null);
     }
 
     public Account getAccount(String accountNumber) {
-        for(Account a : this.accounts){
-            if(a.getAccountNumber().compareTo(accountNumber)== 0){
-                return a;
-            }
-        }
-        return null;
+        return this.accounts.stream()
+                .filter(a -> a.getAccountNumber().compareTo(accountNumber) == 0)
+                .findFirst().orElse(null);
     }
 
 }
