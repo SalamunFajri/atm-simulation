@@ -24,3 +24,13 @@ hs_err_pid*
 
 # intelliJ
 .idea
+
+# output
+out
+
+# eclipse
+.classpath
+.project
+
+
+
