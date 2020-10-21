@@ -8,10 +8,8 @@ import com.sf.util.UtilCls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class ScreenService {
 
@@ -29,7 +27,11 @@ public class ScreenService {
     }
 
     public void Run() {
-        this.welcomeScreen();
+        try {
+            this.welcomeScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void welcomeScreen() {
@@ -275,8 +277,8 @@ public class ScreenService {
         } else {
             switch (choice) {
                 case 1:
-                    this.getTransactionService().fundTransfer(theBank.getAccount(authAccount.getAccountNumber()),
-                            theBank.getAccount(destAccountNumb), amountTransfer);
+                    this.getTransactionService().fundTransfer(theBank.getAccountByAccountNumber(authAccount.getAccountNumber()),
+                            theBank.getAccountByAccountNumber(destAccountNumb), amountTransfer);
                     fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb.toString());
                     break;
                 case 2:

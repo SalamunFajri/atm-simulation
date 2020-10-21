@@ -13,16 +13,6 @@ public class UtilCsv {
     private  final char DEFAULT_SEPARATOR = ',';
     private  final char DEFAULT_QUOTE = '"';
 
-    public void readAccountFromCsv(String csvFile) throws FileNotFoundException {
-        Bank bank = new Bank();
-        Scanner scanner = new Scanner(new File(csvFile));
-        while (scanner.hasNext()) {
-            List<String> line = parseLine(scanner.nextLine());
-            bank.Add(new Account(line.get(0),line.get(1), Long.parseLong(line.get(2)), line.get(2)));
-        }
-        scanner.close();
-    }
-
     public List<String> parseLine(String cvsLine) {
         return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
     }

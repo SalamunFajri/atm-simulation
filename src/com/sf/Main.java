@@ -1,28 +1,24 @@
 package com.sf;
 
+import com.sf.exception.atmSimulationException;
 import com.sf.model.Bank;
 import com.sf.model.Mutation;
-import com.sf.model.Transaction;
 import com.sf.service.ScreenService;
 import com.sf.service.TransactionService;
-import com.sf.util.UtilCsv;
-
-import java.io.FileNotFoundException;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        ReadCsvFile(args[0]);
-        ScreenService screenService = new ScreenService(new Bank(),new TransactionService(), new Mutation());
-        screenService.Run();
-    }
-
-    private static void ReadCsvFile(String arg) {
-        UtilCsv utilCsv = new UtilCsv();
+    public static void main(String[] args) {
+        ScreenService screenService = null;
         try {
-            utilCsv.readAccountFromCsv(arg);
-        } catch (FileNotFoundException e) {
-            System.out.println("WARNING: File CSV Not Found");
+            screenService = new ScreenService(new Bank(args[0]),new TransactionService(), new Mutation());
+        } catch (atmSimulationException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (screenService == null) {
+                screenService = new ScreenService(new Bank(),new TransactionService(), new Mutation());
+            }
+            screenService.Run();
         }
     }
 
