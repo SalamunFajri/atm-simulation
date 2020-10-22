@@ -12,8 +12,8 @@ public class TransactionService {
 
     private Mutation mutation;
 
-    public TransactionService() {
-        this.setMutation(new Mutation());
+    public TransactionService(Mutation mutation) {
+        this.setMutation(mutation);
     }
 
     public  void withdraw(Account account, long amount) {

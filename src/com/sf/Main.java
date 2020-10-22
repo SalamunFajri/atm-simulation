@@ -9,14 +9,15 @@ import com.sf.service.TransactionService;
 public class Main {
 
     public static void main(String[] args) {
+        Mutation mutation = new Mutation();
         ScreenService screenService = null;
         try {
-            screenService = new ScreenService(new Bank(args[0]),new TransactionService(), new Mutation());
+            screenService = new ScreenService(new Bank(args[0]),new TransactionService(mutation), mutation);
         } catch (atmSimulationException e) {
             System.out.println(e.getMessage());
         } finally {
             if (screenService == null) {
-                screenService = new ScreenService(new Bank(),new TransactionService(), new Mutation());
+                screenService = new ScreenService(new Bank(),new TransactionService(mutation), mutation);
             }
             screenService.Run();
         }
