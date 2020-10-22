@@ -101,9 +101,6 @@ public class ScreenService {
     }
 
     private void printTransactionScreen() {
-
-        Mutation mutation = this.getMutation();
-        List<Transaction> lst = mutation.getTransactions();
         List<Transaction> list = mutation.getLastNTransaction(authAccount.getAccountNumber(), 10);
         list.stream()
                 .forEach(t->System.out.println(t.getAccountNumber() + ","
@@ -112,7 +109,6 @@ public class ScreenService {
                         +t.getAmount()));
 
         ChooseTransactionOrWelcomeScreen();
-
     }
 
     private void ChooseTransactionOrWelcomeScreen() {
