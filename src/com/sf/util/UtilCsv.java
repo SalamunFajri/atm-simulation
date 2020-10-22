@@ -14,11 +14,11 @@ public class UtilCsv {
     private  final char DEFAULT_QUOTE = '"';
 
     public List<String> parseLine(String cvsLine) {
-        return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+        return this.parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
     }
 
     public List<String> parseLine(String cvsLine, char separators) {
-        return parseLine(cvsLine, separators, DEFAULT_QUOTE);
+        return this.parseLine(cvsLine, separators, DEFAULT_QUOTE);
     }
 
     public List<String> parseLine(String cvsLine, char separators, char customQuote) {

@@ -2,13 +2,10 @@ package com.sf.service;
 
 import com.sf.model.Account;
 import com.sf.model.Bank;
-import com.sf.model.Mutation;
-import com.sf.model.Transaction;
 import com.sf.util.UtilCls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Scanner;
 
 public class ScreenService {
@@ -37,7 +34,7 @@ public class ScreenService {
         String accountNumber;
         String pin;
         this.setSc(new Scanner(System.in));
-        authAccount = null;
+        this.authAccount = null;
         do {
             System.out.print("Enter Account Number: ");
             accountNumber = sc.nextLine();
@@ -61,12 +58,12 @@ public class ScreenService {
                 continue;
             }
 
-            this.setAuthAccount(theBank.userLogin(accountNumber, pin));
-            if (authAccount == null) {
+            this.setAuthAccount(this.theBank.userLogin(accountNumber, pin));
+            if (this.authAccount == null) {
                 System.out.println("Invalid Account Number/PIN");
                 continue;
             }
-        } while (authAccount == null);
+        } while (this.authAccount == null);
         transactionScreen();
     }
 
@@ -176,27 +173,26 @@ public class ScreenService {
             } else if (!UtilCls.isNumeric(String.valueOf(amountWithdraw))) {
                 System.out.println("Invalid amount");
                 continue;
-            }  else if ((authAccount.getBalance()-amountWithdraw) >= 0) {
+            }  else if ((this.authAccount.getBalance()-amountWithdraw) >= 0) {
                 System.out.printf("Insufficient balance :", amountWithdraw);
                 continue;
             }
-        } while (amountWithdraw < 0 || (amountWithdraw > authAccount.getBalance()));
-        this.getTransactionService().withdraw(authAccount, amountWithdraw);
+        } while (amountWithdraw < 0 || (amountWithdraw > this.authAccount.getBalance()));
+        this.getTransactionService().withdraw(this.authAccount, amountWithdraw);
         withdrawSummaryScreen(amountWithdraw);
     }
 
     private  void withdrawSummaryScreen(long amountWithdraw) {
-        int choice;
         String date = new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(Calendar.getInstance().getTime());
         System.out.printf("Date     : %s%n", date);
         System.out.printf("Withdraw : $%d%n", amountWithdraw);
-        System.out.printf("Balance  : $%d%n", authAccount.getBalance());
+        System.out.printf("Balance  : $%d%n", this.authAccount.getBalance());
         System.out.println("");
         ChooseTransactionOrWelcomeScreen();
     }
 
     private void fundTransferScreen1() {
-        sc.nextLine();
+        this.sc.nextLine();
         String destAccountNumb;
         System.out.println("Please enter destination account and press enter to continue or");
         System.out.println("press enter to go back Transaction: ");
@@ -219,13 +215,13 @@ public class ScreenService {
     }
 
     private void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
-        sc.nextLine();
+        this.sc.nextLine();
         String keyIn = null;
         int refNumb = UtilCls.random6Digits();
         Integer refNumbInt = new Integer(refNumb);
         System.out.printf("Reference Number: %s%n", refNumbInt.toString());
         System.out.println("press enter to continue or press T to go back to Transaction: ");
-        keyIn = sc.nextLine();
+        keyIn = this.sc.nextLine();
         if (keyIn.toUpperCase() == "T") {
             transactionScreen();
         } else {
@@ -262,14 +258,15 @@ public class ScreenService {
         } else if (!UtilCls.isNumeric(refNumb)) {
             System.out.println("Invalid Reference Number");
             fundTransferScreen1();
-        } else if ((authAccount.getBalance()-amountTransfer)<0) {
+        } else if ((this.authAccount.getBalance()-amountTransfer)<0) {
             System.out.printf("Insufficient balance $" +amountTransfer);
             fundTransferScreen1();
         } else {
             switch (choice) {
                 case 1:
-                    this.getTransactionService().fundTransfer(theBank.getAccountByAccountNumber(authAccount.getAccountNumber()),
-                            theBank.getAccountByAccountNumber(destAccountNumb), amountTransfer);
+                    this.getTransactionService().fundTransfer(this.theBank.getAccountByAccountNumber(
+                            this.authAccount.getAccountNumber()),
+                            this.theBank.getAccountByAccountNumber(destAccountNumb), amountTransfer);
                     fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb.toString());
                     break;
                 case 2:
@@ -284,7 +281,7 @@ public class ScreenService {
         System.out.printf("Destination Account :$%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
         System.out.printf("Reference Number    :$%s%n", refNumb);
-        System.out.printf("Balance             :$%d%n", authAccount.getBalance());
+        System.out.printf("Balance             :$%d%n", this.authAccount.getBalance());
         System.out.println("");
 
         ChooseTransactionOrWelcomeScreen();

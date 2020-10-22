@@ -1,14 +1,5 @@
 package com.sf.model;
 
-import com.sf.exception.ErrorCode;
-import com.sf.exception.atmSimulationException;
-import com.sf.util.UtilCsv;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Scanner;
-
 public class Account {
 
     private String name;
@@ -22,8 +13,6 @@ public class Account {
         this.setBalance(balance);
         this.setAccountNumber(accountNumber);
     }
-
-
 
     public String getName() {
         return name;

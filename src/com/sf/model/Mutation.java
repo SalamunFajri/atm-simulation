@@ -1,11 +1,7 @@
 package com.sf.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +18,7 @@ public class Mutation {
     }
 
     public void Add(Transaction transaction){
-        transactions.add(transaction);
+        this.transactions.add(transaction);
     }
 
     public Transaction getTransactionById(long id) {
@@ -36,7 +32,7 @@ public class Mutation {
     }
 
     public long getNextId(){
-        return transactions.size() + 1;
+        return this.transactions.size() + 1;
     }
 
     public List<Transaction> getLastNTransaction(String accountNumber, int n) {

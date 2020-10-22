@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Bank {
 
-    public List<Account> accounts = new ArrayList<>();
+    private List<Account> accounts = new ArrayList<>();
 
     public Bank() {
     }

@@ -10,13 +10,11 @@ public enum ErrorCode
 
 	private String message = "";
 
-	private ErrorCode(String message)
-	{
+	private ErrorCode(String message) {
 		this.message = message;
 	}
 
-	public String getMessage()
-	{
+	public String getMessage() {
 		return message;
 	}
 }
