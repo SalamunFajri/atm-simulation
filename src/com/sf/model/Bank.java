@@ -17,6 +17,11 @@ public class Bank {
     public Bank() {
     }
 
+    public void AddDefaultAccount() throws atmSimulationException {
+        this.Add(new Account("John Doe","012108", 100, "112233"));
+        this.Add(new Account("Jane Doe","932012", 30, "112244"));
+    }
+
     public Bank(String csvFile) throws atmSimulationException {
         Scanner scanner = null;
         String name = "";

@@ -26,6 +26,7 @@ public class ScreenService {
 
     public void Run() {
         try {
+            this.theBank.AddDefaultAccount();
             this.welcomeScreen();
         } catch (Exception e) {
             e.printStackTrace();
