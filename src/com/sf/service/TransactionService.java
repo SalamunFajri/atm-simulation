@@ -7,6 +7,7 @@ import com.sf.model.Transaction;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionService {
 
@@ -38,6 +39,15 @@ public class TransactionService {
                 Transaction.TransactionType.FUND_TRANSFER_IN.toString(),
                 amount));
 
+    }
+
+    public void printTransactionScreen(String accountNumber) {
+        List<Transaction> list = this.getMutation().getLastNTransaction(accountNumber, 10);
+        list.stream()
+                .forEach(t->System.out.println(t.getAccountNumber() + ","
+                        +t.getTimestamp()+","
+                        +t.getTransactionType()+","
+                        +t.getAmount()));
     }
 
     public Mutation getMutation() {

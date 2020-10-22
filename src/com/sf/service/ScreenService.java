@@ -17,13 +17,11 @@ public class ScreenService {
     private Scanner sc;
     private Account authAccount = null;
     private TransactionService transactionService;
-    private Mutation mutation;
 
-    public ScreenService(Bank bank, TransactionService transactionService, Mutation mutation) {
+    public ScreenService(Bank bank, TransactionService transactionService) {
         this.setBank(bank);
         this.setSc(new Scanner(System.in));
         this.setTransactionService(transactionService);
-        this.setMutation(mutation);
     }
 
     public void Run() {
@@ -101,13 +99,7 @@ public class ScreenService {
     }
 
     private void printTransactionScreen() {
-        List<Transaction> list = mutation.getLastNTransaction(authAccount.getAccountNumber(), 10);
-        list.stream()
-                .forEach(t->System.out.println(t.getAccountNumber() + ","
-                        +t.getTimestamp()+","
-                        +t.getTransactionType()+","
-                        +t.getAmount()));
-
+        this.getTransactionService().printTransactionScreen(authAccount.getAccountNumber());
         ChooseTransactionOrWelcomeScreen();
     }
 
@@ -329,11 +321,4 @@ public class ScreenService {
         this.transactionService = transactionService;
     }
 
-    public Mutation getMutation() {
-        return mutation;
-    }
-
-    public void setMutation(Mutation mutation) {
-        this.mutation = mutation;
-    }
 }
