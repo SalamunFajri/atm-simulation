@@ -1,26 +1,29 @@
-package com.sf.service;
+package com.sf.service.impl;
 
 import com.sf.model.Account;
-import com.sf.model.Bank;
+import com.sf.dao.IBank;
+import com.sf.service.IScreenService;
+import com.sf.service.ITransactionService;
 import com.sf.util.UtilCls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
 
-public class ScreenService {
+public class ScreenService implements IScreenService {
 
-    private Bank theBank;
+    private IBank theBank;
     private Scanner sc;
     private Account authAccount = null;
-    private TransactionService transactionService;
+    private ITransactionService transactionService;
 
-    public ScreenService(Bank bank, TransactionService transactionService) {
+    public ScreenService(IBank bank, ITransactionService transactionService) {
         this.setBank(bank);
         this.setSc(new Scanner(System.in));
         this.setTransactionService(transactionService);
     }
 
+    @Override
     public void Run() {
         try {
             this.theBank.AddDefaultAccount();
@@ -30,6 +33,7 @@ public class ScreenService {
         }
     }
 
+    @Override
     public void welcomeScreen() {
         String accountNumber;
         String pin;
@@ -69,6 +73,7 @@ public class ScreenService {
         transactionScreen();
     }
 
+    @Override
     public  void transactionScreen(){
         int choice;
 
@@ -300,35 +305,42 @@ public class ScreenService {
         ChooseTransactionOrWelcomeScreen();
     }
 
-    public Bank getBank() {
+    @Override
+    public IBank getBank() {
         return theBank;
     }
 
-    public void setBank(Bank bank) {
+    public void setBank(IBank bank) {
         this.theBank = bank;
     }
 
+    @Override
     public Scanner getSc() {
         return sc;
     }
 
+    @Override
     public void setSc(Scanner sc) {
         this.sc = sc;
     }
 
+    @Override
     public Account getAuthAccount() {
         return authAccount;
     }
 
+    @Override
     public void setAuthAccount(Account authAccount) {
         this.authAccount = authAccount;
     }
 
-    public TransactionService getTransactionService() {
+    @Override
+    public ITransactionService getTransactionService() {
         return transactionService;
     }
 
-    public void setTransactionService(TransactionService transactionService) {
+    @Override
+    public void setTransactionService(ITransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
