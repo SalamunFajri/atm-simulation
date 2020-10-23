@@ -37,7 +37,7 @@ public class Mutation {
 
     public List<Transaction> getLastNTransaction(String accountNumber, int n) {
         return this.transactions.stream()
-                .filter(t -> t.getAccountNumber()==accountNumber)
+                .filter(t -> t.getAccountNumber().equals(accountNumber))
                 .limit(n)
                 .sorted(Comparator.comparing(Transaction::getTimestamp)
                         .reversed())

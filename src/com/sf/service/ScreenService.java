@@ -174,7 +174,7 @@ public class ScreenService {
                 System.out.println("Invalid amount");
                 continue;
             }  else if ((this.authAccount.getBalance()-amountWithdraw) >= 0) {
-                System.out.printf("Insufficient balance :", amountWithdraw);
+                System.out.printf("Insufficient balance : $%d%n", amountWithdraw);
                 continue;
             }
         } while (amountWithdraw < 0 || (amountWithdraw > this.authAccount.getBalance()));
@@ -187,7 +187,7 @@ public class ScreenService {
         System.out.printf("Date     : %s%n", date);
         System.out.printf("Withdraw : $%d%n", amountWithdraw);
         System.out.printf("Balance  : $%d%n", this.authAccount.getBalance());
-        System.out.println("");
+        System.out.println();
         ChooseTransactionOrWelcomeScreen();
     }
 
@@ -216,13 +216,13 @@ public class ScreenService {
 
     private void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
         this.sc.nextLine();
-        String keyIn = null;
+        String keyIn;
         int refNumb = UtilCls.random6Digits();
         Integer refNumbInt = new Integer(refNumb);
         System.out.printf("Reference Number: %s%n", refNumbInt.toString());
         System.out.println("press enter to continue or press T to go back to Transaction: ");
         keyIn = this.sc.nextLine();
-        if (keyIn.toUpperCase() == "T") {
+        if (keyIn.toUpperCase().equals("T")) {
             transactionScreen();
         } else {
             fundTransferScreen4(destAccountNumb, amountTransfer, refNumbInt.toString());
@@ -235,11 +235,11 @@ public class ScreenService {
         System.out.printf("Destination Account :%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
         System.out.printf("Reference Number    :$%s%n", refNumb);
-        System.out.println("");
+        System.out.println();
         do {
             System.out.println("1. Confirm Trx");
             System.out.println("2. Cancel Trx");
-            System.out.printf("Choose option[2]:");
+            System.out.println("Choose option[2]:");
             choice = sc.nextInt();
         }while(choice <1 || choice >2);
 
@@ -267,7 +267,7 @@ public class ScreenService {
                     this.getTransactionService().fundTransfer(this.theBank.getAccountByAccountNumber(
                             this.authAccount.getAccountNumber()),
                             this.theBank.getAccountByAccountNumber(destAccountNumb), amountTransfer);
-                    fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb.toString());
+                    fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb);
                     break;
                 case 2:
                     transactionScreen();
@@ -282,7 +282,7 @@ public class ScreenService {
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
         System.out.printf("Reference Number    :$%s%n", refNumb);
         System.out.printf("Balance             :$%d%n", this.authAccount.getBalance());
-        System.out.println("");
+        System.out.println();
 
         ChooseTransactionOrWelcomeScreen();
     }

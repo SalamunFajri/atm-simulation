@@ -8,7 +8,7 @@ public enum ErrorCode
 	RECORD_DUPLICATE("There can't be duplicated records {{record}}"),
 	FILE_CSV_NOT_FOUND("File CSV Not Found");
 
-	private String message = "";
+	private String message;
 
 	private ErrorCode(String message) {
 		this.message = message;

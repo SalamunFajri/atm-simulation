@@ -26,7 +26,7 @@ public class Bank {
         Scanner scanner = null;
         String name = "";
         String pin = "";
-        Long balance = 0L;
+        Long balance;
         String accountNumber = "";
         UtilCsv utilCsv = new UtilCsv();
         try {

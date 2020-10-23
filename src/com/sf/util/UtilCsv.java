@@ -1,102 +1,39 @@
 package com.sf.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import com.sf.model.Account;
-import com.sf.model.Bank;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UtilCsv {
 
     private  final char DEFAULT_SEPARATOR = ',';
-    private  final char DEFAULT_QUOTE = '"';
 
     public List<String> parseLine(String cvsLine) {
-        return this.parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+        return this.parseLine(cvsLine, DEFAULT_SEPARATOR);
     }
 
     public List<String> parseLine(String cvsLine, char separators) {
-        return this.parseLine(cvsLine, separators, DEFAULT_QUOTE);
-    }
-
-    public List<String> parseLine(String cvsLine, char separators, char customQuote) {
-
         List<String> result = new ArrayList<>();
-
         if (cvsLine == null && cvsLine.isEmpty()) {
             return result;
         }
-
-        if (customQuote == ' ') {
-            customQuote = DEFAULT_QUOTE;
-        }
-
         if (separators == ' ') {
             separators = DEFAULT_SEPARATOR;
         }
 
-        StringBuffer curVal = new StringBuffer();
-        boolean inQuotes = false;
-        boolean startCollectChar = false;
-        boolean doubleQuotesInColumn = false;
+        AtomicReference<StringBuffer> currentValue = new AtomicReference<>(new StringBuffer());
+        char finalSeparators = separators;
 
-        char[] chars = cvsLine.toCharArray();
-
-        for (char ch : chars) {
-
-            if (inQuotes) {
-                startCollectChar = true;
-                if (ch == customQuote) {
-                    inQuotes = false;
-                    doubleQuotesInColumn = false;
-                } else {
-
-                    //Fixed : allow "" in custom quote enclosed
-                    if (ch == '\"') {
-                        if (!doubleQuotesInColumn) {
-                            curVal.append(ch);
-                            doubleQuotesInColumn = true;
-                        }
-                    } else {
-                        curVal.append(ch);
-                    }
-
-                }
+        cvsLine.chars().forEach(ch -> {
+            if (ch == finalSeparators) {
+                result.add(currentValue.toString());
+                currentValue.set(new StringBuffer());
+            } else if ((ch == '\r') || (ch == '\n')) {
             } else {
-                if (ch == customQuote) {
+                currentValue.get().append(ch);
+            }});
 
-                    inQuotes = true;
-
-                    if (chars[0] != '"' && customQuote == '\"') {
-                        curVal.append('"');
-                    }
-
-                    if (startCollectChar) {
-                        curVal.append('"');
-                    }
-
-                } else if (ch == separators) {
-
-                    result.add(curVal.toString());
-
-                    curVal = new StringBuffer();
-                    startCollectChar = false;
-
-                } else if (ch == '\r') {
-                    continue;
-                } else if (ch == '\n') {
-                    break;
-                } else {
-                    curVal.append(ch);
-                }
-            }
-
-        }
-
-        result.add(curVal.toString());
-
+        result.add(currentValue.toString());
         return result;
     }
 
