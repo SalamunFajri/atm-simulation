@@ -12,9 +12,9 @@ public class UtilCsv {
         return this.parseLine(cvsLine, DEFAULT_SEPARATOR);
     }
 
-    public List<String> parseLine(String cvsLine, char separators) {
+    public List<String> parseLine(String line, char separators) {
         List<String> result = new ArrayList<>();
-        if (cvsLine == null && cvsLine.isEmpty()) {
+        if (line == null && line.isEmpty()) {
             return result;
         }
         if (separators == ' ') {
@@ -24,7 +24,7 @@ public class UtilCsv {
         AtomicReference<StringBuffer> currentValue = new AtomicReference<>(new StringBuffer());
         char finalSeparators = separators;
 
-        cvsLine.chars().forEach(ch -> {
+        line.chars().forEach(ch -> {
             if ((char)ch == finalSeparators) {
                 result.add(currentValue.toString());
                 currentValue.set(new StringBuffer());

@@ -35,6 +35,8 @@ public class ScreenService {
         String pin;
         this.setSc(new Scanner(System.in));
         this.authAccount = null;
+        System.out.println();
+        System.out.println(">>>>>>>>>>>>>>>  ATM SIMULATION  <<<<<<<<<<<<<<<<<");
         do {
             System.out.print("Enter Account Number: ");
             accountNumber = sc.nextLine();
@@ -76,7 +78,7 @@ public class ScreenService {
             System.out.println("3. Print Transaction");
             System.out.println("4. Exit");
             System.out.println("Please choose option[4]:");
-            choice = sc.nextInt();
+            choice = getIntChoice();
         } while(choice <1 || choice >4);
 
         switch(choice) {
@@ -96,6 +98,26 @@ public class ScreenService {
         }
     }
 
+    private int getIntChoice() {
+        int choice;
+        try {
+            choice = Integer.parseInt(sc.nextLine());
+        } catch (Exception e) {
+            choice = -1;
+        }
+        return choice;
+    }
+
+    private long getLongAmount() {
+        long amount;
+        try {
+            amount = Long.parseLong(sc.nextLine());
+        } catch (Exception e) {
+            amount = 0L;
+        }
+        return amount;
+    }
+
     private void printTransactionScreen() {
         this.getTransactionService().printTransactionScreen(authAccount.getAccountNumber());
         ChooseTransactionOrWelcomeScreen();
@@ -107,7 +129,7 @@ public class ScreenService {
             System.out.println("1. Transaction");
             System.out.println("2. Exit");
             System.out.println("Choose option[2]:");
-            choice = sc.nextInt();
+            choice = getIntChoice();
         } while (choice < 1 || choice > 2);
 
         switch (choice) {
@@ -131,7 +153,7 @@ public class ScreenService {
             System.out.println("4. Other");
             System.out.println("5. Back");
             System.out.println("Please choose option[5]:");
-            choice = sc.nextInt();
+            choice = getIntChoice();
         } while(choice <1 || choice >5);
 
         switch(choice){
@@ -163,19 +185,15 @@ public class ScreenService {
         System.out.println("Other Withdraw");
         do {
             System.out.println("Enter amount to withdraw:");
-            amountWithdraw = sc.nextLong();
+            amountWithdraw = getLongAmount();
             if (amountWithdraw < 0) {
                 System.out.println("Invalid amount");
-                continue;
             } else if (!((amountWithdraw % 10)==0)) {
                 System.out.println("Invalid amount");
-                continue;
             } else if (!UtilCls.isNumeric(String.valueOf(amountWithdraw))) {
                 System.out.println("Invalid amount");
-                continue;
             }  else if ((this.authAccount.getBalance()-amountWithdraw) >= 0) {
                 System.out.printf("Insufficient balance : $%d%n", amountWithdraw);
-                continue;
             }
         } while (amountWithdraw < 0 || (amountWithdraw > this.authAccount.getBalance()));
         this.getTransactionService().withdraw(this.authAccount, amountWithdraw);
@@ -187,12 +205,10 @@ public class ScreenService {
         System.out.printf("Date     : %s%n", date);
         System.out.printf("Withdraw : $%d%n", amountWithdraw);
         System.out.printf("Balance  : $%d%n", this.authAccount.getBalance());
-        System.out.println();
         ChooseTransactionOrWelcomeScreen();
     }
 
     private void fundTransferScreen1() {
-        this.sc.nextLine();
         String destAccountNumb;
         System.out.println("Please enter destination account and press enter to continue or");
         System.out.println("press enter to go back Transaction: ");
@@ -209,13 +225,12 @@ public class ScreenService {
         do {
             System.out.println("Please enter transfer amount and press enter to continue or");
             System.out.println("press enter to go back to Transaction:");
-            amountTransfer = sc.nextLong();
+            amountTransfer = getLongAmount();
         } while (amountTransfer < 0);
         fundTransferScreen3(destAccountNumb, amountTransfer);
     }
 
     private void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
-        this.sc.nextLine();
         String keyIn;
         int refNumb = UtilCls.random6Digits();
         Integer refNumbInt = new Integer(refNumb);
@@ -234,13 +249,13 @@ public class ScreenService {
         System.out.println("Transfer Confirmation");
         System.out.printf("Destination Account :%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
-        System.out.printf("Reference Number    :$%s%n", refNumb);
+        System.out.printf("Reference Number    :%s%n", refNumb);
         System.out.println();
         do {
             System.out.println("1. Confirm Trx");
             System.out.println("2. Cancel Trx");
-            System.out.println("Choose option[2]:");
-            choice = sc.nextInt();
+            System.out.print("Choose option[2]:");
+            choice = getIntChoice();
         }while(choice <1 || choice >2);
 
         if (destAccountNumb.length() != 6) {
@@ -278,12 +293,10 @@ public class ScreenService {
 
     private void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb) {
         System.out.println("Fund Transfer Summary");
-        System.out.printf("Destination Account :$%s%n", destAccountNumb);
+        System.out.printf("Destination Account :%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
-        System.out.printf("Reference Number    :$%s%n", refNumb);
+        System.out.printf("Reference Number    :%s%n", refNumb);
         System.out.printf("Balance             :$%d%n", this.authAccount.getBalance());
-        System.out.println();
-
         ChooseTransactionOrWelcomeScreen();
     }
 
