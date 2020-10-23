@@ -25,12 +25,13 @@ public class UtilCsv {
         char finalSeparators = separators;
 
         cvsLine.chars().forEach(ch -> {
-            if (ch == finalSeparators) {
+            if ((char)ch == finalSeparators) {
                 result.add(currentValue.toString());
                 currentValue.set(new StringBuffer());
-            } else if ((ch == '\r') || (ch == '\n')) {
+            } else if (((char)ch == '\r') || ((char)ch == '\n')) {
+                return;
             } else {
-                currentValue.get().append(ch);
+                currentValue.get().append((char)ch);
             }});
 
         result.add(currentValue.toString());
