@@ -17,6 +17,11 @@ public class MemoryBank implements IBank {
     private List<Account> accounts = new ArrayList<>();
 
     public MemoryBank() {
+        try {
+            this.AddDefaultAccount();
+        } catch (atmSimulationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,6 +68,7 @@ public class MemoryBank implements IBank {
             if (scanner!=null) {
                 scanner.close();
             }
+            this.AddDefaultAccount();
         }
     }
 

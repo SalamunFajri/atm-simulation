@@ -8,4 +8,18 @@ public interface IInput {
     String getString();
 
     void RefreshDevice();
+
+    String getAccountNumber();
+
+    String getPin();
+
+    int getTransactionChoice();
+
+    int getWithDrawChoice();
+
+    long getAmount();
+
+    String getDestAccountNumber();
+
+    int getConfirmChoice();
 }

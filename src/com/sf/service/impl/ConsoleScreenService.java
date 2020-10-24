@@ -10,23 +10,24 @@ import com.sf.util.UtilCls;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ConsoleScreenService implements IScreenService {
+public class ConsoleScreenService implements  IScreenService {
 
     private IBank theBank;
     private IInput inp;
     private Account authAccount = null;
     private ITransactionService transactionService;
+    private boolean isAuto;
 
-    public ConsoleScreenService(IBank bank, ITransactionService transactionService, IInput inp) {
+    public ConsoleScreenService(IBank bank, ITransactionService transactionService, IInput inp)  {
         this.setBank(bank);
         this.setTransactionService(transactionService);
         this.inp = inp;
+        this.isAuto = true;
     }
 
     @Override
     public void run() {
         try {
-            this.theBank.AddDefaultAccount();
             this.welcomeScreen();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,9 +44,9 @@ public class ConsoleScreenService implements IScreenService {
         System.out.println(">>>>>>>>>>>>>>>  ATM SIMULATION  <<<<<<<<<<<<<<<<<");
         do {
             System.out.print("Enter Account Number: ");
-            accountNumber = inp.getString();
+            accountNumber = inp.getAccountNumber();
             System.out.print("Enter PIN: ");
-            pin = inp.getString();
+            pin = inp.getPin();
 
             if (accountNumber.length() != 6) {
                 System.out.println("Account Number should have 6 digits");
@@ -70,7 +71,7 @@ public class ConsoleScreenService implements IScreenService {
                 continue;
             }
         } while (this.authAccount == null);
-        transactionScreen();
+        if (isAuto) transactionScreen();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class ConsoleScreenService implements IScreenService {
             System.out.println("3. Print Transaction");
             System.out.println("4. Exit");
             System.out.println("Please choose option[4]:");
-            choice = inp.getInt();
+            choice = inp.getTransactionChoice();
         } while(choice <1 || choice >4);
 
         switch(choice) {
@@ -103,12 +104,14 @@ public class ConsoleScreenService implements IScreenService {
         }
     }
 
-    private void printTransactionScreen() {
+    @Override
+    public void printTransactionScreen() {
         this.getTransactionService().printTransactionScreen(authAccount.getAccountNumber());
         ChooseTransactionOrWelcomeScreen();
     }
 
-    private void ChooseTransactionOrWelcomeScreen() {
+    @Override
+    public void ChooseTransactionOrWelcomeScreen() {
         int choice;
         do {
             System.out.println("1. Transaction");
@@ -128,7 +131,8 @@ public class ConsoleScreenService implements IScreenService {
     }
 
 
-    private  void withdrawScreen1() {
+    @Override
+    public  void withdrawScreen1() {
         int choice;
 
         do{
@@ -138,7 +142,7 @@ public class ConsoleScreenService implements IScreenService {
             System.out.println("4. Other");
             System.out.println("5. Back");
             System.out.println("Please choose option[5]:");
-            choice = this.inp.getInt();
+            choice = this.inp.getWithDrawChoice();
         } while(choice <1 || choice >5);
 
         switch(choice){
@@ -164,20 +168,21 @@ public class ConsoleScreenService implements IScreenService {
     }
 
 
-    private  void withdrawScreen2() {
+    @Override
+    public  void withdrawScreen2() {
         long amountWithdraw;
 
         System.out.println("Other Withdraw");
         do {
             System.out.println("Enter amount to withdraw:");
-            amountWithdraw = this.inp.getLong();
+            amountWithdraw = this.inp.getAmount();
             if (amountWithdraw < 0) {
                 System.out.println("Invalid amount");
             } else if (!((amountWithdraw % 10)==0)) {
                 System.out.println("Invalid amount");
             } else if (!UtilCls.isNumeric(String.valueOf(amountWithdraw))) {
                 System.out.println("Invalid amount");
-            }  else if ((this.authAccount.getBalance()-amountWithdraw) >= 0) {
+            }  else if ((this.authAccount.getBalance()-amountWithdraw) < 0) {
                 System.out.printf("Insufficient balance : $%d%n", amountWithdraw);
             }
         } while (amountWithdraw < 0 || (amountWithdraw > this.authAccount.getBalance()));
@@ -185,19 +190,21 @@ public class ConsoleScreenService implements IScreenService {
         withdrawSummaryScreen(amountWithdraw);
     }
 
-    private  void withdrawSummaryScreen(long amountWithdraw) {
+    @Override
+    public  void withdrawSummaryScreen(long amountWithdraw) {
         String date = new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(Calendar.getInstance().getTime());
         System.out.printf("Date     : %s%n", date);
         System.out.printf("Withdraw : $%d%n", amountWithdraw);
         System.out.printf("Balance  : $%d%n", this.authAccount.getBalance());
-        ChooseTransactionOrWelcomeScreen();
+        if (isAuto) ChooseTransactionOrWelcomeScreen();
     }
 
-    private void fundTransferScreen1() {
+    @Override
+    public void fundTransferScreen1() {
         String destAccountNumb;
         System.out.println("Please enter destination account and press enter to continue or");
         System.out.println("press enter to go back Transaction: ");
-        destAccountNumb = this.inp.getString();
+        destAccountNumb = this.inp.getDestAccountNumber();
         if (destAccountNumb.length()>0) {
             fundTransferScreen2(destAccountNumb);
         } else {
@@ -205,17 +212,19 @@ public class ConsoleScreenService implements IScreenService {
         }
     }
 
-    private void fundTransferScreen2(String destAccountNumb) {
+    @Override
+    public void fundTransferScreen2(String destAccountNumb) {
         long amountTransfer;
         do {
             System.out.println("Please enter transfer amount and press enter to continue or");
             System.out.println("press enter to go back to Transaction:");
-            amountTransfer = this.inp.getLong();
+            amountTransfer = this.inp.getAmount();
         } while (amountTransfer < 0);
         fundTransferScreen3(destAccountNumb, amountTransfer);
     }
 
-    private void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
+    @Override
+    public void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
         String keyIn;
         int refNumb = UtilCls.random6Digits();
         Integer refNumbInt = new Integer(refNumb);
@@ -229,7 +238,8 @@ public class ConsoleScreenService implements IScreenService {
         }
     }
 
-    private void fundTransferScreen4(String destAccountNumb, long amountTransfer, String refNumb) {
+    @Override
+    public void fundTransferScreen4(String destAccountNumb, long amountTransfer, String refNumb) {
         int choice;
         System.out.println("Transfer Confirmation");
         System.out.printf("Destination Account :%s%n", destAccountNumb);
@@ -240,7 +250,7 @@ public class ConsoleScreenService implements IScreenService {
             System.out.println("1. Confirm Trx");
             System.out.println("2. Cancel Trx");
             System.out.print("Choose option[2]:");
-            choice = this.inp.getInt();
+            choice = this.inp.getConfirmChoice();
         }while(choice <1 || choice >2);
 
         if (destAccountNumb.length() != 6) {
@@ -276,13 +286,14 @@ public class ConsoleScreenService implements IScreenService {
         }
     }
 
-    private void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb) {
+    @Override
+    public void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb) {
         System.out.println("Fund Transfer Summary");
         System.out.printf("Destination Account :%s%n", destAccountNumb);
         System.out.printf("Transfer Amount     :$%d%n", amountTransfer);
         System.out.printf("Reference Number    :%s%n", refNumb);
         System.out.printf("Balance             :$%d%n", this.authAccount.getBalance());
-        ChooseTransactionOrWelcomeScreen();
+        if (isAuto) ChooseTransactionOrWelcomeScreen();
     }
 
     @Override
@@ -290,6 +301,7 @@ public class ConsoleScreenService implements IScreenService {
         return theBank;
     }
 
+    @Override
     public void setBank(IBank bank) {
         this.theBank = bank;
     }
@@ -314,4 +326,11 @@ public class ConsoleScreenService implements IScreenService {
         this.transactionService = transactionService;
     }
 
+    public boolean isAuto() {
+        return isAuto;
+    }
+
+    public void setAuto(boolean auto) {
+        isAuto = auto;
+    }
 }

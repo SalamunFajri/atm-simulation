@@ -1,8 +1,9 @@
-package com.sf.input.impl;
+package com.sf.service.impl.test;
 
 import com.sf.input.IInput;
 
-public class WebInput implements IInput {
+public class ConsoleInputStub implements IInput {
+
     @Override
     public int getInt() {
         return 0;
@@ -15,7 +16,7 @@ public class WebInput implements IInput {
 
     @Override
     public String getString() {
-        return null;
+        return "";
     }
 
     @Override
@@ -25,36 +26,36 @@ public class WebInput implements IInput {
 
     @Override
     public String getAccountNumber() {
-        return null;
+        return "112233";
     }
 
     @Override
     public String getPin() {
-        return null;
+        return "012108";
     }
 
     @Override
     public int getTransactionChoice() {
-        return 0;
+        return 1;
     }
 
     @Override
     public int getWithDrawChoice() {
-        return 0;
+        return 4;
     }
 
     @Override
     public long getAmount() {
-        return 0;
+        return 10;
     }
 
     @Override
     public String getDestAccountNumber() {
-        return null;
+        return "112244";
     }
 
     @Override
     public int getConfirmChoice() {
-        return 0;
+        return 1;
     }
 }

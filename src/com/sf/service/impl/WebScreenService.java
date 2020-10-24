@@ -22,6 +22,56 @@ public class WebScreenService implements IScreenService {
     }
 
     @Override
+    public void printTransactionScreen() {
+
+    }
+
+    @Override
+    public void ChooseTransactionOrWelcomeScreen() {
+
+    }
+
+    @Override
+    public void withdrawScreen1() {
+
+    }
+
+    @Override
+    public void withdrawScreen2() {
+
+    }
+
+    @Override
+    public void withdrawSummaryScreen(long amountWithdraw) {
+
+    }
+
+    @Override
+    public void fundTransferScreen1() {
+
+    }
+
+    @Override
+    public void fundTransferScreen2(String destAccountNumb) {
+
+    }
+
+    @Override
+    public void fundTransferScreen3(String destAccountNumb, long amountTransfer) {
+
+    }
+
+    @Override
+    public void fundTransferScreen4(String destAccountNumb, long amountTransfer, String refNumb) {
+
+    }
+
+    @Override
+    public void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb) {
+
+    }
+
+    @Override
     public IBank getBank() {
         return null;
     }
@@ -48,6 +98,11 @@ public class WebScreenService implements IScreenService {
 
     @Override
     public void setTransactionService(ITransactionService transactionService) {
+
+    }
+
+    @Override
+    public void setAuto(boolean b) {
 
     }
 }

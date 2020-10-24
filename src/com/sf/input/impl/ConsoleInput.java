@@ -49,4 +49,39 @@ public class ConsoleInput implements IInput {
         this.sc = new Scanner(System.in);
     }
 
+    @Override
+    public String getAccountNumber() {
+        return getString();
+    }
+
+    @Override
+    public String getPin() {
+        return getString();
+    }
+
+    @Override
+    public int getTransactionChoice() {
+        return getInt();
+    }
+
+    @Override
+    public int getWithDrawChoice() {
+        return getInt();
+    }
+
+    @Override
+    public long getAmount() {
+        return getLong();
+    }
+
+    @Override
+    public String getDestAccountNumber() {
+        return getString();
+    }
+
+    @Override
+    public int getConfirmChoice() {
+        return getInt();
+    }
+
 }

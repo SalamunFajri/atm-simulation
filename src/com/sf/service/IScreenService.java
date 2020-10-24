@@ -1,7 +1,7 @@
 package com.sf.service;
 
-import com.sf.model.Account;
 import com.sf.dao.IBank;
+import com.sf.model.Account;
 
 public interface IScreenService {
     void run();
@@ -9,6 +9,26 @@ public interface IScreenService {
     void welcomeScreen();
 
     void transactionScreen();
+
+    void printTransactionScreen();
+
+    void ChooseTransactionOrWelcomeScreen();
+
+    void withdrawScreen1();
+
+    void withdrawScreen2();
+
+    void withdrawSummaryScreen(long amountWithdraw);
+
+    void fundTransferScreen1();
+
+    void fundTransferScreen2(String destAccountNumb);
+
+    void fundTransferScreen3(String destAccountNumb, long amountTransfer);
+
+    void fundTransferScreen4(String destAccountNumb, long amountTransfer, String refNumb);
+
+    void fundTransferSummaryScreen(String destAccountNumb, long amountTransfer, String refNumb);
 
     IBank getBank();
 
@@ -21,4 +41,6 @@ public interface IScreenService {
     ITransactionService getTransactionService();
 
     void setTransactionService(ITransactionService transactionService);
+
+    void setAuto(boolean b);
 }
