@@ -1,7 +1,6 @@
 package com.sf.service.impl;
 
 import com.sf.input.IInput;
-import com.sf.input.impl.ScannerCls;
 import com.sf.model.Account;
 import com.sf.dao.IBank;
 import com.sf.service.IScreenService;
@@ -25,7 +24,7 @@ public class ScreenService implements IScreenService {
     }
 
     @Override
-    public void Run() {
+    public void run() {
         try {
             this.theBank.AddDefaultAccount();
             this.welcomeScreen();

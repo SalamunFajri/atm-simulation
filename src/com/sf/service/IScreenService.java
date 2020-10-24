@@ -3,10 +3,8 @@ package com.sf.service;
 import com.sf.model.Account;
 import com.sf.dao.IBank;
 
-import java.util.Scanner;
-
 public interface IScreenService {
-    void Run();
+    void run();
 
     void welcomeScreen();
 
