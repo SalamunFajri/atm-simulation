@@ -10,14 +10,14 @@ import com.sf.util.UtilCls;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ScreenService implements IScreenService {
+public class ConsoleScreenService implements IScreenService {
 
     private IBank theBank;
     private IInput inp;
     private Account authAccount = null;
     private ITransactionService transactionService;
 
-    public ScreenService(IBank bank, ITransactionService transactionService, IInput inp) {
+    public ConsoleScreenService(IBank bank, ITransactionService transactionService, IInput inp) {
         this.setBank(bank);
         this.setTransactionService(transactionService);
         this.inp = inp;

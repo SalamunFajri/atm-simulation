@@ -4,10 +4,10 @@ import com.sf.input.IInput;
 
 import java.util.Scanner;
 
-public class ScannerCls implements IInput {
+public class ConsoleInput implements IInput {
 
     private Scanner sc;
-    public ScannerCls(){
+    public ConsoleInput(){
         this.sc = new Scanner(System.in);
     }
 

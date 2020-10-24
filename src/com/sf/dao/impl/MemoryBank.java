@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Bank implements IBank {
+public class MemoryBank implements IBank {
 
     private List<Account> accounts = new ArrayList<>();
 
-    public Bank() {
+    public MemoryBank() {
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Bank implements IBank {
         this.Add(new Account("Jane Doe","932012", 30, "112244"));
     }
 
-    public Bank(String csvFile) throws atmSimulationException {
+    public MemoryBank(String csvFile) throws atmSimulationException {
         Scanner scanner = null;
         String name = "";
         String pin = "";

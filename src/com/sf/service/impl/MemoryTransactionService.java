@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class TransactionService implements ITransactionService {
+public class MemoryTransactionService implements ITransactionService {
 
     private IMutation mutation;
 
-    public TransactionService(IMutation mutation) {
+    public MemoryTransactionService(IMutation mutation) {
         this.setMutation(mutation);
     }
 
