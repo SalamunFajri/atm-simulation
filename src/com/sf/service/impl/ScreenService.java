@@ -1,5 +1,7 @@
 package com.sf.service.impl;
 
+import com.sf.input.IInput;
+import com.sf.input.impl.ScannerCls;
 import com.sf.model.Account;
 import com.sf.dao.IBank;
 import com.sf.service.IScreenService;
@@ -8,19 +10,18 @@ import com.sf.util.UtilCls;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Scanner;
 
 public class ScreenService implements IScreenService {
 
     private IBank theBank;
-    private Scanner sc;
+    private IInput inp;
     private Account authAccount = null;
     private ITransactionService transactionService;
 
-    public ScreenService(IBank bank, ITransactionService transactionService) {
+    public ScreenService(IBank bank, ITransactionService transactionService, IInput inp) {
         this.setBank(bank);
-        this.setSc(new Scanner(System.in));
         this.setTransactionService(transactionService);
+        this.inp = inp;
     }
 
     @Override
@@ -37,15 +38,15 @@ public class ScreenService implements IScreenService {
     public void welcomeScreen() {
         String accountNumber;
         String pin;
-        this.setSc(new Scanner(System.in));
+        this.inp.RefreshDevice();
         this.authAccount = null;
         System.out.println();
         System.out.println(">>>>>>>>>>>>>>>  ATM SIMULATION  <<<<<<<<<<<<<<<<<");
         do {
             System.out.print("Enter Account Number: ");
-            accountNumber = sc.nextLine();
+            accountNumber = inp.getString();
             System.out.print("Enter PIN: ");
-            pin = sc.nextLine();
+            pin = inp.getString();
 
             if (accountNumber.length() != 6) {
                 System.out.println("Account Number should have 6 digits");
@@ -83,7 +84,7 @@ public class ScreenService implements IScreenService {
             System.out.println("3. Print Transaction");
             System.out.println("4. Exit");
             System.out.println("Please choose option[4]:");
-            choice = getIntChoice();
+            choice = inp.getInt();
         } while(choice <1 || choice >4);
 
         switch(choice) {
@@ -103,26 +104,6 @@ public class ScreenService implements IScreenService {
         }
     }
 
-    private int getIntChoice() {
-        int choice;
-        try {
-            choice = Integer.parseInt(sc.nextLine());
-        } catch (Exception e) {
-            choice = -1;
-        }
-        return choice;
-    }
-
-    private long getLongAmount() {
-        long amount;
-        try {
-            amount = Long.parseLong(sc.nextLine());
-        } catch (Exception e) {
-            amount = 0L;
-        }
-        return amount;
-    }
-
     private void printTransactionScreen() {
         this.getTransactionService().printTransactionScreen(authAccount.getAccountNumber());
         ChooseTransactionOrWelcomeScreen();
@@ -134,7 +115,7 @@ public class ScreenService implements IScreenService {
             System.out.println("1. Transaction");
             System.out.println("2. Exit");
             System.out.println("Choose option[2]:");
-            choice = getIntChoice();
+            choice = inp.getInt();
         } while (choice < 1 || choice > 2);
 
         switch (choice) {
@@ -158,7 +139,7 @@ public class ScreenService implements IScreenService {
             System.out.println("4. Other");
             System.out.println("5. Back");
             System.out.println("Please choose option[5]:");
-            choice = getIntChoice();
+            choice = this.inp.getInt();
         } while(choice <1 || choice >5);
 
         switch(choice){
@@ -190,7 +171,7 @@ public class ScreenService implements IScreenService {
         System.out.println("Other Withdraw");
         do {
             System.out.println("Enter amount to withdraw:");
-            amountWithdraw = getLongAmount();
+            amountWithdraw = this.inp.getLong();
             if (amountWithdraw < 0) {
                 System.out.println("Invalid amount");
             } else if (!((amountWithdraw % 10)==0)) {
@@ -217,7 +198,7 @@ public class ScreenService implements IScreenService {
         String destAccountNumb;
         System.out.println("Please enter destination account and press enter to continue or");
         System.out.println("press enter to go back Transaction: ");
-        destAccountNumb = sc.nextLine();
+        destAccountNumb = this.inp.getString();
         if (destAccountNumb.length()>0) {
             fundTransferScreen2(destAccountNumb);
         } else {
@@ -230,7 +211,7 @@ public class ScreenService implements IScreenService {
         do {
             System.out.println("Please enter transfer amount and press enter to continue or");
             System.out.println("press enter to go back to Transaction:");
-            amountTransfer = getLongAmount();
+            amountTransfer = this.inp.getLong();
         } while (amountTransfer < 0);
         fundTransferScreen3(destAccountNumb, amountTransfer);
     }
@@ -241,7 +222,7 @@ public class ScreenService implements IScreenService {
         Integer refNumbInt = new Integer(refNumb);
         System.out.printf("Reference Number: %s%n", refNumbInt.toString());
         System.out.println("press enter to continue or press T to go back to Transaction: ");
-        keyIn = this.sc.nextLine();
+        keyIn = this.inp.getString();
         if (keyIn.toUpperCase().equals("T")) {
             transactionScreen();
         } else {
@@ -260,7 +241,7 @@ public class ScreenService implements IScreenService {
             System.out.println("1. Confirm Trx");
             System.out.println("2. Cancel Trx");
             System.out.print("Choose option[2]:");
-            choice = getIntChoice();
+            choice = this.inp.getInt();
         }while(choice <1 || choice >2);
 
         if (destAccountNumb.length() != 6) {
@@ -312,16 +293,6 @@ public class ScreenService implements IScreenService {
 
     public void setBank(IBank bank) {
         this.theBank = bank;
-    }
-
-    @Override
-    public Scanner getSc() {
-        return sc;
-    }
-
-    @Override
-    public void setSc(Scanner sc) {
-        this.sc = sc;
     }
 
     @Override

@@ -16,10 +16,6 @@ public interface IScreenService {
 
     void setBank(IBank bank);
 
-    Scanner getSc();
-
-    void setSc(Scanner sc);
-
     Account getAuthAccount();
 
     void setAuthAccount(Account authAccount);
