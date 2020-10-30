@@ -4,11 +4,11 @@ import com.sf.exception.atmSimulationException;
 import com.sf.model.Account;
 
 public interface IBank {
-    void AddDefaultAccount() throws atmSimulationException;
+    void addDefaultAccount() throws atmSimulationException;
 
-    void Add(Account account) throws atmSimulationException;
+    void add(Account account) throws atmSimulationException;
 
-    Account userLogin(String accountNumber, String pin);
+    Account userLogin(String accountNumber, String pin) throws atmSimulationException;
 
     Account getAccountByAccountNumber(String accountNumber);
 

@@ -9,12 +9,12 @@ public class SqlDbBank implements IBank {
     }
 
     @Override
-    public void AddDefaultAccount() throws atmSimulationException {
+    public void addDefaultAccount() throws atmSimulationException {
 
     }
 
     @Override
-    public void Add(Account account) throws atmSimulationException {
+    public void add(Account account) throws atmSimulationException {
 
     }
 

@@ -12,7 +12,7 @@ public class SqlDbMutation implements IMutation {
     }
 
     @Override
-    public void Add(Transaction transaction) {
+    public void add(Transaction transaction) {
 
     }
 

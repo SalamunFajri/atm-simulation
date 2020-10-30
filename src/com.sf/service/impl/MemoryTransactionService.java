@@ -18,10 +18,10 @@ public class MemoryTransactionService implements ITransactionService {
     }
 
     @Override
-    public  void withdraw(Account account, long amount) {
+    public  void withdrawFrom(Account account, long amount) {
         account.setBalance(account.getBalance()-amount);
 
-        this.mutation.Add(new Transaction(this.mutation.getNextId(),
+        this.mutation.add(new Transaction(this.mutation.getNextId(),
                 account.getAccountNumber(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 Transaction.TransactionType.WITHDRAW.toString(), amount));
     }
@@ -29,13 +29,13 @@ public class MemoryTransactionService implements ITransactionService {
     @Override
     public  void fundTransfer(Account origAccount, Account destAccount, long amount) {
         origAccount.setBalance(origAccount.getBalance()-amount);
-        this.mutation.Add(new Transaction(this.mutation.getNextId(),
+        this.mutation.add(new Transaction(this.mutation.getNextId(),
                 origAccount.getAccountNumber(),
                 LocalDateTime.now().minusSeconds(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 Transaction.TransactionType.FUND_TRANSFER_OUT.toString(),
                 amount));
         destAccount.setBalance(destAccount.getBalance()+amount);
-        this.mutation.Add(new Transaction(this.mutation.getNextId(),
+        this.mutation.add(new Transaction(this.mutation.getNextId(),
                 destAccount.getAccountNumber(),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 Transaction.TransactionType.FUND_TRANSFER_IN.toString(),

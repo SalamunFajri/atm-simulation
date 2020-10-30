@@ -7,7 +7,7 @@ import java.util.List;
 public interface IMutation {
     List<Transaction> getTransactions();
 
-    void Add(Transaction transaction);
+    void add(Transaction transaction);
 
     Transaction getTransactionById(long id);
 

@@ -1,5 +1,7 @@
 package com.sf.model;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class Account {
 
     private String name;
@@ -12,6 +14,10 @@ public class Account {
         this.setPin(pin);
         this.setBalance(balance);
         this.setAccountNumber(accountNumber);
+    }
+
+    public Account(AtomicReference<String> name, AtomicReference<String> pin,
+                   AtomicReference<Long> balance, AtomicReference<String> accountNumber) {
     }
 
     public String getName() {

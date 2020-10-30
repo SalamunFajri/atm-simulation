@@ -22,7 +22,7 @@ public class MemoryMutation implements IMutation {
     }
 
     @Override
-    public void Add(Transaction transaction){
+    public void add(Transaction transaction){
         this.transactions.add(transaction);
     }
 

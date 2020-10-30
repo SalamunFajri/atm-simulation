@@ -10,7 +10,7 @@ public class SqlDbTransactionService implements ITransactionService {
     }
 
     @Override
-    public void withdraw(Account account, long amount) {
+    public void withdrawFrom(Account account, long amount) {
 
     }
 
