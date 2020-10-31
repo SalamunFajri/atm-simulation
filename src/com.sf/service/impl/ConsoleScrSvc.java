@@ -12,7 +12,6 @@ public class ConsoleScrSvc implements IScreenService {
     private IInput inp;
     private Account authAccount = null;
     private ITransactionService transactionService;
-    private ConsoleMainMenuScrSvc consoleMainMenuScrSvc;
     private boolean isAuto;
 
     public ConsoleScrSvc(IBank bank, ITransactionService transactionService, IInput inp)  {

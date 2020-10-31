@@ -64,6 +64,8 @@ public class MemoryBank implements IBank {
             System.out.println(ErrorCode.FILE_CSV_NOT_FOUND.getMessage());
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println(ErrorCode.FILE_CSV_NOT_FOUND.getMessage());
         } finally {
             this.addDefaultAccount();
         }

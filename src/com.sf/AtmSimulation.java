@@ -2,7 +2,6 @@ package com.sf;
 
 import com.sf.dao.impl.MemoryBank;
 import com.sf.dao.impl.MemoryMutation;
-import com.sf.exception.atmSimulationException;
 import com.sf.input.impl.ConsoleInput;
 import com.sf.service.impl.ConsoleScrSvc;
 import com.sf.service.impl.MemoryTransactionService;
@@ -10,7 +9,7 @@ import com.sf.service.impl.ConsoleMainMenuScrSvc;
 
 //The Factory
 public class AtmSimulation {
-    public static ConsoleMainMenuScrSvc createConsole(String fileCsv) throws atmSimulationException {
+    public static ConsoleMainMenuScrSvc createConsole(String fileCsv)  {
         return  new ConsoleMainMenuScrSvc(
                 new ConsoleScrSvc(new MemoryBank(fileCsv),
                 new MemoryTransactionService(new MemoryMutation()),

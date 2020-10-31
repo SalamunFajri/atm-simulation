@@ -5,7 +5,7 @@ import com.sf.exception.atmSimulationException;
 public class Main {
     public static void main(String[] args) throws atmSimulationException {
         AtmSimulation
-                .createConsole(args[0])
+                .createConsole(args.length>=1?args[0]:null)
                 .run();
     }
 }
