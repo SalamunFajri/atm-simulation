@@ -1,8 +1,7 @@
-package com.sf.service.impl.test;
+package com.sf.service;
 
 import com.sf.dao.impl.MemoryBank;
 import com.sf.dao.impl.MemoryMutation;
-import com.sf.service.IScreenService;
 import com.sf.service.impl.*;
 import org.junit.jupiter.api.*;
 

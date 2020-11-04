@@ -1,4 +1,4 @@
-package com.sf.service.impl.test;
+package com.sf.service;
 
 import com.sf.input.IInput;
 
