@@ -12,8 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 public class MemoryBank implements IBank {
@@ -27,8 +25,8 @@ public class MemoryBank implements IBank {
     @Override
     public void addDefaultAccount()  {
         try {
-        this.add(new Account("John Doe","012108", 100, "112233"));
-        this.add(new Account("Jane Doe","932012", 30, "112244"));
+        this.add(new Account(this.getNextId(),"John Doe","012108", 100, "112233"));
+        this.add(new Account(this.getNextId(),"Jane Doe","932012", 30, "112244"));
         } catch (atmSimulationException e) {
             String errorCode = e.getMessage();
             if (errorCode.contains("duplicated records")) {
@@ -46,7 +44,7 @@ public class MemoryBank implements IBank {
             Stream<String> stream = Files.lines(Paths.get(csvFile)).skip(1);
             stream.map(utilCsv::parseLine).forEach(line -> {
                 try {
-                    this.add(new Account(line.get(0), line.get(1), Long.parseLong(line.get(2)), line.get(3)));
+                    this.add(new Account(this.getNextId(),line.get(0), line.get(1), Long.parseLong(line.get(2)), line.get(3)));
                 } catch (atmSimulationException e) {
                     String errorCode = e.getMessage();
                     if (errorCode.contains("duplicated records")) {
@@ -107,6 +105,10 @@ public class MemoryBank implements IBank {
                 && a.getName().compareTo(name) == 0
                 && a.getPin().compareTo(pin) == 0)
                 .findFirst().orElse(null);
+    }
+
+    public long getNextId(){
+        return this.accounts.size() + 1;
     }
 
 }

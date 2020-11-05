@@ -4,6 +4,7 @@ import com.sf.model.Account;
 import com.sf.dao.IMutation;
 import com.sf.model.Transaction;
 import com.sf.service.ITransactionService;
+import com.sf.util.UtilDate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +23,7 @@ public class MemoryTransactionService implements ITransactionService {
         account.setBalance(account.getBalance()-amount);
 
         this.mutation.add(new Transaction(this.mutation.getNextId(),
-                account.getAccountNumber(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                account.getAccountNumber(), UtilDate.asDate(LocalDateTime.now()),
                 Transaction.TransactionType.WITHDRAW.toString(), amount));
     }
 
@@ -31,13 +32,13 @@ public class MemoryTransactionService implements ITransactionService {
         origAccount.setBalance(origAccount.getBalance()-amount);
         this.mutation.add(new Transaction(this.mutation.getNextId(),
                 origAccount.getAccountNumber(),
-                LocalDateTime.now().minusSeconds(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                UtilDate.asDate(LocalDateTime.now().minusSeconds(1)),
                 Transaction.TransactionType.FUND_TRANSFER_OUT.toString(),
                 amount));
         destAccount.setBalance(destAccount.getBalance()+amount);
         this.mutation.add(new Transaction(this.mutation.getNextId(),
                 destAccount.getAccountNumber(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                UtilDate.asDate(LocalDateTime.now()),
                 Transaction.TransactionType.FUND_TRANSFER_IN.toString(),
                 amount));
 
@@ -48,7 +49,7 @@ public class MemoryTransactionService implements ITransactionService {
         List<Transaction> list = this.mutation.getLastNTransaction(accountNumber, 10);
         list.stream()
                 .forEach(t->System.out.println(t.getAccountNumber() + ","
-                        +t.getTimestamp()+","
+                        +UtilDate.asLocalDateTime(t.getTimestamp()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))+","
                         +t.getTransactionType()+","
                         +t.getAmount()));
     }

@@ -1,18 +1,31 @@
 package com.sf.model;
 
+import javax.persistence.*;
+import java.util.Date;
+
+
+@Entity
+@Table(name = "transaction")
 public class Transaction {
 
     public enum TransactionType {
         WITHDRAW, FUND_TRANSFER_IN, FUND_TRANSFER_OUT
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
+    @Column(name = "accountNumber")
     private String accountNumber;
-    private String timestamp;
+    @Column(name = "timestamp")
+    private Date timestamp;
+    @Column(name = "transactionType")
     private String transactionType;
+    @Column(name = "amount")
     private long amount;
 
-    public Transaction(long id, String accountNumber, String timestamp, String transactionType, long amount) {
+    public Transaction(long id, String accountNumber, Date timestamp, String transactionType, long amount) {
         this.setId(id);
         this.setAccountNumber(accountNumber);
         this.setTimestamp(timestamp);
@@ -44,11 +57,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
