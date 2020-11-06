@@ -7,10 +7,6 @@ import com.sf.service.ITransactionService;
 
 public interface IScreenService  {
 
-    IBank getBank();
-
-    void setBank(IBank bank);
-
     Account getAuthAccount();
 
     void setAuthAccount(Account authAccount);

@@ -84,9 +84,9 @@ public class ConsoleFundTrfScrSvc  {
         } else {
             switch (choice) {
                 case 1:
-                    consoleScrSvc.getTransactionService().fundTransfer(consoleScrSvc.getBank().getAccountByAccountNumber(
+                    consoleScrSvc.getTransactionService().fundTransfer(consoleScrSvc.getTransactionService().getBank().getAccountByAccountNumber(
                             consoleScrSvc.getAuthAccount().getAccountNumber()),
-                            consoleScrSvc.getBank().getAccountByAccountNumber(destAccountNumb), amountTransfer);
+                            consoleScrSvc.getTransactionService().getBank().getAccountByAccountNumber(destAccountNumb), amountTransfer);
                     fundTransferSummaryScreen(destAccountNumb, amountTransfer, refNumb);
                     break;
                 case 2:

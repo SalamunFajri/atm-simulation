@@ -108,6 +108,11 @@ public class SqlDbBank implements IBank {
         } else return null;
     }
 
+    public void updateBalance(Account account, long amount) {
+       account.setBalance(amount);
+       repository.save(account);
+    }
+
     public List<Account> getAll() {
         return (List<Account>) getRepository().findAll();
     }

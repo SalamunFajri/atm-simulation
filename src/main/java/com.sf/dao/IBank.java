@@ -13,4 +13,6 @@ public interface IBank {
     Account getAccountByAccountNumber(String accountNumber);
 
     Account getAccountByAllProperty(String accountNumber, String name, String pin);
+
+    void updateBalance(Account account, long amount);
 }

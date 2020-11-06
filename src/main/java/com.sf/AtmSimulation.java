@@ -11,8 +11,8 @@ import com.sf.service.impl.ConsoleMainMenuScrSvc;
 public class AtmSimulation {
     public static ConsoleMainMenuScrSvc createConsole(String fileCsv)  {
         return  new ConsoleMainMenuScrSvc(
-                new ConsoleScrSvc(new MemoryBank(fileCsv),
-                new MemoryTransactionService(new MemoryMutation()),
+                new ConsoleScrSvc(
+                new MemoryTransactionService(new MemoryBank(fileCsv), new MemoryMutation()),
                 new ConsoleInput()));
     }
 

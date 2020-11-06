@@ -8,27 +8,15 @@ import com.sf.service.ITransactionService;
 
 public class ConsoleScrSvc implements IScreenService {
 
-    private IBank theBank;
     private IInput inp;
     private Account authAccount = null;
     private ITransactionService transactionService;
     private boolean isAuto;
 
-    public ConsoleScrSvc(IBank bank, ITransactionService transactionService, IInput inp)  {
-        this.setBank(bank);
+    public ConsoleScrSvc(ITransactionService transactionService, IInput inp)  {
         this.setTransactionService(transactionService);
         this.setInp(inp);
         this.isAuto = true;
-    }
-
-    @Override
-    public IBank getBank() {
-        return theBank;
-    }
-
-    @Override
-    public void setBank(IBank bank) {
-        this.theBank = bank;
     }
 
     @Override

@@ -1,8 +1,13 @@
 package com.sf.service.impl;
 
 import com.sf.exception.atmSimulationException;
+import com.sf.model.Transaction;
 import com.sf.service.IScreenService;
 import com.sf.util.UtilCls;
+import com.sf.util.UtilDate;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ConsoleMainMenuScrSvc {
 
@@ -51,7 +56,7 @@ public class ConsoleMainMenuScrSvc {
             }
 
             try {
-                this.consoleScrSvc.setAuthAccount(consoleScrSvc.getBank().userLogin(accountNumber, pin));
+                this.consoleScrSvc.setAuthAccount(consoleScrSvc.getTransactionService().getBank().userLogin(accountNumber, pin));
             } catch (atmSimulationException e) {
                     System.out.println("Invalid Account Number/PIN");
                     continue;
@@ -98,9 +103,19 @@ public class ConsoleMainMenuScrSvc {
 
 
     public void printTransactionScreen() {
-        consoleScrSvc.getTransactionService().printTransactionScreen(consoleScrSvc.getAuthAccount().getAccountNumber());
+        printTransactionScreen(consoleScrSvc.getAuthAccount().getAccountNumber());
         chooseTransactionOrWelcomeScreen();
     }
+
+    public void printTransactionScreen(String accountNumber) {
+        List<Transaction> list = consoleScrSvc.getTransactionService().getMutation().getLastNTransaction(accountNumber, 10);
+        list.stream()
+                .forEach(t->System.out.println(t.getAccountNumber() + ","
+                        + UtilDate.asLocalDateTime(t.getTimestamp()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))+","
+                        +t.getTransactionType()+","
+                        +t.getAmount()));
+    }
+
 
     public void chooseTransactionOrWelcomeScreen() {
         int choice;

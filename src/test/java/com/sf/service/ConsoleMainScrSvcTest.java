@@ -14,8 +14,8 @@ class ConsoleScrSvcTest {
     ConsoleMainMenuScrSvc consoleMainMenuScrSvc;
     @BeforeEach
     void setUp() {
-        consoleScrSvc = new ConsoleScrSvc(new MemoryBank(),
-                new MemoryTransactionService(new MemoryMutation()),
+        consoleScrSvc = new ConsoleScrSvc(
+                new MemoryTransactionService(new MemoryBank(), new MemoryMutation()),
                 new ConsoleInputStub());
 
         consoleMainMenuScrSvc = new ConsoleMainMenuScrSvc(consoleScrSvc);
@@ -51,12 +51,12 @@ class ConsoleScrSvcTest {
     void fundTransfer() {
         consoleMainMenuScrSvc.welcomeScreen();
         long oldBalanceOrig = consoleScrSvc.getAuthAccount().getBalance();
-        long oldBalanceDest = consoleScrSvc.getBank().getAccountByAccountNumber(consoleScrSvc.getInp().getDestAccountNumber()).getBalance();
+        long oldBalanceDest = consoleScrSvc.getTransactionService().getBank().getAccountByAccountNumber(consoleScrSvc.getInp().getDestAccountNumber()).getBalance();
         ConsoleFundTrfScrSvc consoleFundTrfScrSvc = new ConsoleFundTrfScrSvc(consoleScrSvc);
         consoleFundTrfScrSvc.fundTransferScreen1();
         assertEquals(consoleScrSvc.getAuthAccount().getBalance(),
                 oldBalanceOrig-consoleScrSvc.getInp().getAmount());
-        assertEquals(consoleScrSvc.getBank().getAccountByAccountNumber(consoleScrSvc.getInp().getDestAccountNumber()).getBalance(),
+        assertEquals(consoleScrSvc.getTransactionService().getBank().getAccountByAccountNumber(consoleScrSvc.getInp().getDestAccountNumber()).getBalance(),
                 oldBalanceDest+consoleScrSvc.getInp().getAmount());
     }
 

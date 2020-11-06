@@ -1,5 +1,6 @@
 package com.sf.service;
 
+import com.sf.dao.IBank;
 import com.sf.model.Account;
 import com.sf.dao.IMutation;
 
@@ -8,7 +9,9 @@ public interface ITransactionService {
 
     void fundTransfer(Account origAccount, Account destAccount, long amount);
 
-    void printTransactionScreen(String accountNumber);
+    IBank getBank();
+
+    void setBank(IBank bank);
 
     IMutation getMutation();
 

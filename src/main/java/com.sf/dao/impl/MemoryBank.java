@@ -107,6 +107,11 @@ public class MemoryBank implements IBank {
                 .findFirst().orElse(null);
     }
 
+    @Override
+    public void updateBalance(Account account, long amount) {
+        account.setBalance(amount);
+    }
+
     public long getNextId(){
         return this.accounts.size() + 1;
     }
