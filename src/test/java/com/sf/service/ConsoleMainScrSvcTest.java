@@ -15,7 +15,7 @@ class ConsoleScrSvcTest {
     @BeforeEach
     void setUp() {
         consoleScrSvc = new ConsoleScrSvc(
-                new MemoryTransactionService(new MemoryBank(), new MemoryMutation()),
+                new TransactionService(new MemoryBank(), new MemoryMutation()),
                 new ConsoleInputStub());
 
         consoleMainMenuScrSvc = new ConsoleMainMenuScrSvc(consoleScrSvc);

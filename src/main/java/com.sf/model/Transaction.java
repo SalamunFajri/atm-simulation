@@ -25,6 +25,9 @@ public class Transaction {
     @Column(name = "amount")
     private long amount;
 
+    public Transaction() {
+    }
+
     public Transaction(long id, String accountNumber, Date timestamp, String transactionType, long amount) {
         this.setId(id);
         this.setAccountNumber(accountNumber);

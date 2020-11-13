@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -94,9 +95,9 @@ public class SqlDbBank implements IBank {
 
     @Override
     public Account getAccountByAccountNumber(String accountNumber) {
-        List<Account> accounts = getRepository().findByAccountNumber(accountNumber);
-        if (accounts.size()>0) {
-            return accounts.get(0);
+        Optional<Account> val = getRepository().findByAccountNumber(accountNumber);
+        if (val.isPresent()) {
+            return val.get();
         } else return null;
     }
 

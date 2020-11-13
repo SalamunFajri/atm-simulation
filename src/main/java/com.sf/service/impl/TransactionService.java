@@ -6,15 +6,18 @@ import com.sf.dao.IMutation;
 import com.sf.model.Transaction;
 import com.sf.service.ITransactionService;
 import com.sf.util.UtilDate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-public class MemoryTransactionService implements ITransactionService {
+@Service
+public class TransactionService implements ITransactionService {
 
     private IMutation mutation;
     private IBank bank;
 
-    public MemoryTransactionService(IBank bank, IMutation mutation) {
+    public TransactionService(IBank bank, IMutation mutation) {
         this.setMutation(mutation);
         this.setBank(bank);
     }
